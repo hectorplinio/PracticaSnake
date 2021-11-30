@@ -4,36 +4,30 @@ const KEY_LEFT=37;
 const KEY_UP=38; 
 const KEY_RIGHT=39; 
 const KEY_DOWN=40; 
- 
 const ARRIBA=0; 
 const DERECHA=1; 
 const ABAJO=2; 
-const IZQUIERDA=3; 
- 
-var dir=DERECHA; 
- 
+const IZQUIERDA=3;  
+var dir=DERECHA;  
 var lastPress=null; 
 var pause=true;
 const KEY_P=80;
  
 function iniciar(){ 
- canvas=document.getElementById('lienzo'); 
- lienzo=canvas.getContext('2d'); 
- run(); 
- repaint() 
+    canvas=document.getElementById('lienzo'); 
+    lienzo=canvas.getContext('2d'); 
+    run(); 
+    repaint() 
 } 
-function run() 
-{ 
- setTimeout(run,50); 
- act(); 
+function run() { 
+    setTimeout(run,50); 
+    act(); 
 } 
-function repaint() 
-{ 
- requestAnimationFrame(repaint) 
- paint(lienzo); 
+function repaint() { 
+    requestAnimationFrame(repaint) 
+    paint(lienzo); 
 } 
-function act() 
-{ 
+function act() { 
     if (!pause){
         if(lastPress==KEY_UP) 
             dir=ARRIBA; 
@@ -70,14 +64,9 @@ function act()
         pause=!pause;
         lastPress=null;
     }
-
 } 
 function paint(lienzo){ 
- 
-     
- 
     var gradiente=lienzo.createLinearGradient(0,0,0,canvas.height); 
- 
     gradiente.addColorStop(0.5, '#0000FF'); 
     gradiente.addColorStop(1, '#000000'); 
     lienzo.fillStyle=gradiente; 
@@ -91,13 +80,7 @@ function paint(lienzo){
         lienzo.textAlign='left';
         }
 } 
- 
- 
- 
 window.addEventListener("load", iniciar, false); 
- 
- 
-document.addEventListener('keydown', function(evt) 
-{ 
+document.addEventListener('keydown', function(evt) { 
  lastPress=evt.keyCode; 
 }, false);
