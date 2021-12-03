@@ -1,0 +1,7 @@
+#lienzo{
+    margin: auto;
+    padding-top: 15em;
+}
+.contenedor{
+    display: flex;
+}
