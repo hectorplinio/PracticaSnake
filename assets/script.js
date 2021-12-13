@@ -17,6 +17,7 @@ var pause = false;
 const KEY_P = 80;
 var rect1 = new Rectangle(50, 50, 100, 60, "#f00");
 var gameover = false;
+var start = true;
 var wall = [];
 wall.push(new Rectangle(100, 50, 10, 10, "#999"));
 wall.push(new Rectangle(100, 100, 10, 10, "#999"));
@@ -45,7 +46,9 @@ function repaint() {
   requestAnimationFrame(repaint);
   paint(lienzo);
 }
-
+body.push(new Rectangle(40, 40, 10, 10, "#0f0"));
+body.push(new Rectangle(0, 0, 10, 10, "#0f0"));
+body.push(new Rectangle(0, 0, 10, 10, "#0f0"));
 function act() {
   if (!pause && !gameover) {
     if (lastPress == KEY_UP && dir != ABAJO) dir = ARRIBA;
@@ -98,7 +101,11 @@ function act() {
     pause = !pause;
     lastPress = null;
   }
-  if (gameover && lastPress == KEY_ENTER) {
+  if (start == true){
+    reset();
+    start=false;
+  }
+  if (gameover && lastPress  == KEY_ENTER) {
     reset();
   }
 }
@@ -133,7 +140,8 @@ function paint(lienzo) {
     lienzo.textAlign = "center";
     if (gameover) {
       lienzo.fillText("GAME OVER", 235, 145);
-    } else {
+    }
+     else {
       pause = false;
       lienzo.fillText("GAME PAUSED", 235, 145);
     }
