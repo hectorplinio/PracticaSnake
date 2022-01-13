@@ -1,8 +1,17 @@
+//pagina 25
 var lienzo = null,
   canvas = null;
 //var body[0] = new Rectangle(40, 40, 10, 10, "#0f0");
 var food = new Rectangle(80, 80, 10, 10, "#f00");
 var score = 0;
+var iBody = new Image();
+var iFood = new Image();
+iBody.src = "imgs/body.png";
+iFood.src = "imgs/fruit.png";
+var aComer = new Audio();
+var aMorir = new Audio();
+aComer.src = "sounds/chomp.m4a";
+aMorir.src = "sounds/dies.m4a";
 const KEY_LEFT = 37;
 const KEY_UP = 38;
 const KEY_RIGHT = 39;
@@ -25,7 +34,19 @@ wall.push(new Rectangle(200, 50, 10, 10, "#999"));
 wall.push(new Rectangle(200, 100, 10, 10, "#999"));
 const KEY_ENTER = 13;
 var body = [];
+function canPlayOgg() {
+  var aud = new Audio();
 
+  if (aud.canPlayType("audio/ogg").replace(/no/, "")) return true;
+  else return false;
+}
+if (canPlayOgg()) {
+  aComer.src = "sounds/chomp.ogg";
+  aMorir.src = "sounds/dies.ogg";
+} else {
+  aComer.src = "sounds/chomp.m4a";
+  aMorir.src = "sounds/dies.m4a";
+}
 //var colision = rect1.intersects(rect2);
 function random(max) {
   return Math.floor(Math.random() * max);
@@ -71,9 +92,11 @@ function act() {
       food.x = random(canvas.width / 10 - 1) * 10;
       food.y = random(canvas.height / 10 - 1) * 10;
       body.push(new Rectangle(0, 0, 10, 10, "#0f0"));
+      aComer.play();
     }
     for (var i = 0, l = wall.length; i < l; i++) {
       wall[i].fill(lienzo);
+      aMorir.play();
     }
 
     for (var i = 0; i < wall.length; i++) {
@@ -101,11 +124,11 @@ function act() {
     pause = !pause;
     lastPress = null;
   }
-  if (start == true){
+  if (start == true) {
     reset();
-    start=false;
+    start = false;
   }
-  if (gameover && lastPress  == KEY_ENTER) {
+  if (gameover && lastPress == KEY_ENTER) {
     reset();
   }
 }
@@ -140,8 +163,7 @@ function paint(lienzo) {
     lienzo.textAlign = "center";
     if (gameover) {
       lienzo.fillText("GAME OVER", 235, 145);
-    }
-     else {
+    } else {
       pause = false;
       lienzo.fillText("GAME PAUSED", 235, 145);
     }
@@ -151,9 +173,16 @@ function paint(lienzo) {
   for (var i = 0, l = wall.length; i < l; i++) {
     wall[i].fill(lienzo);
   }
-  food.fill(lienzo);
+  // food.fill(lienzo);
+  // for (var i = 0; i < body.length; i++) {
+  //   body[i].fill(lienzo);
+  // }
   for (var i = 0; i < body.length; i++) {
-    body[i].fill(lienzo);
+    lienzo.drawImage(iBody, body[i].x, body[i].y);
+  }
+  lienzo.drawImage(iFood, food.x, food.y);
+  for (var i = 0, l = wall.length; i < l; i++) {
+    lienzo.drawImage(iWall, wall[i].x, wall[i].y);
   }
 }
 
@@ -189,3 +218,4 @@ document.addEventListener(
   },
   false
 );
+ 
